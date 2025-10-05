@@ -117,7 +117,7 @@ public sealed class Asteroid
 
     private int ComputeMass()
     {
-        return Compact + MassFromComposition(Composition) + Size;
+        return (Compact + MassFromComposition(Composition)) * Size;
     }
 
     private static int MassFromComposition(CompositionType value)

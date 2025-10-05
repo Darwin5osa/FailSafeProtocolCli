@@ -25,7 +25,7 @@ public abstract class Contingency
 
     protected bool desviationByInertia(int coningencyInertia, int asteroidInertia, int distance)
     {
-        int residualInertia = asteroidInertia - coningencyInertia;
+        double residualInertia = (double)asteroidInertia - coningencyInertia;
         Console.WriteLine("ResidualInertia" + residualInertia);
         if (residualInertia < 0) return true;
         double residualRatio = residualInertia / asteroidInertia;
@@ -115,7 +115,7 @@ public sealed class ElectromagnetContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        int initialInertia = 5;
+        int initialInertia = 2;
         if (asteroid.Composition == CompositionType.MetalBased)
         {
             initialInertia = initialInertia + 20;
@@ -138,7 +138,7 @@ public sealed class MiningContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        int initialInertia = 10;
+        int initialInertia = 5;
 
         if (asteroid.Compact >= 4)
         {
@@ -146,11 +146,11 @@ public sealed class MiningContingency : Contingency
         }
         else if (asteroid.Integrity != IntegrityType.Compact)
         {
-            initialInertia = initialInertia + ((4 - asteroid.Compact) * 4);
+            initialInertia = initialInertia + ((4 - asteroid.Compact) * 3);
         }
         else
         {
-            initialInertia = initialInertia + ((4 - asteroid.Compact) * 3);
+            initialInertia = initialInertia + ((4 - asteroid.Compact) * 2);
         }
         
         bool desviatedFromEarth = this.desviationByInertia(initialInertia, asteroid.Inertia, asteroid.Distance);
@@ -172,9 +172,7 @@ public sealed class MirrorsContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         int initialInertia = 10;
-
-        
-        
+     
         bool desviatedFromEarth = this.desviationByInertia(initialInertia, asteroid.Inertia, asteroid.Distance);
 
         int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
@@ -193,7 +191,8 @@ public sealed class PaintContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -201,7 +200,8 @@ public sealed class LaserContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -209,7 +209,8 @@ public sealed class TarpContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -217,7 +218,8 @@ public sealed class RetroRocketsContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -225,7 +227,8 @@ public sealed class GravityTractorContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -233,7 +236,8 @@ public sealed class TowCablesContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -241,7 +245,8 @@ public sealed class ProjectileContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -249,7 +254,8 @@ public sealed class RemoteMiniBombsContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -257,7 +263,8 @@ public sealed class NukeContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
@@ -265,7 +272,8 @@ public sealed class ImpactOtherAsteroidContingency : Contingency
 {
     public override ContingencyResult Apply(Asteroid asteroid)
     {
-        return new ContingencyResult(false, false, 0, 0);
+        bool deviated = System.Random.Shared.Next(2) == 0;
+        return new ContingencyResult(deviated, false, 0, 0);
     }
 }
 
