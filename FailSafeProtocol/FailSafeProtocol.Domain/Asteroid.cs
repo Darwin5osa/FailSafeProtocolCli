@@ -35,7 +35,7 @@ public sealed class Asteroid
     public int Inertia { get; }
     public int TrajectoryInstability { get; }
     public int Aimability { get; }
-    public int Distance { get; }
+    public int Distance { get; private set; }
 
     public Asteroid(
         int velocity,
@@ -168,6 +168,11 @@ public sealed class Asteroid
     private static int AimabilityFromMultiplicity(bool isMultiple)
     {
         return isMultiple ? -2 : 0;
+    }
+
+    public void IncreaseDistance()
+    {
+        this.Distance = this.Distance++;
     }
 }
     

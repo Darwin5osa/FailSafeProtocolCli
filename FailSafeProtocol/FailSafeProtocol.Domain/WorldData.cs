@@ -422,7 +422,7 @@ public static class WorldData
     internal static IReadOnlyList<City> GetCities(Country country) =>
         CountryToCities.TryGetValue(country, out var cities) ? cities : Array.Empty<City>();
 
-    internal static int GetCityPopulation(City city) =>
+    public static int GetCityPopulation(City city) =>
         CityPopulation.TryGetValue(city, out var pop) ? pop : 0;
 }
 

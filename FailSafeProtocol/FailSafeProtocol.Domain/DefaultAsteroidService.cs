@@ -1,6 +1,8 @@
+using System.IO.Pipelines;
+
 namespace FailSafeProtocol.Domain;
 
-public sealed class DefaultAsteroidService : AsteroidService
+public sealed class DefaultAsteroidService
 {
     private const int QUADRANT_COUNT = 4;
 
@@ -41,13 +43,7 @@ public sealed class DefaultAsteroidService : AsteroidService
     private const double PROBABILITY_DIRECTION_C = 0.30;
     //private const double PROBABILITY_DIRECTION_D = 0.30;
 
-    private const int INITIAL_DISTANCE = 5;
-
-    // TODO modify levels of brightness ---------------------
-    private const int BRIGHTNESS_LEVEL_NONE_MAX = 0;
-    private const int BRIGHTNESS_LEVEL_BASIC_MAX = 3;
-    private const int BRIGHTNESS_LEVEL_INTERMEDIATE_MAX = 6;
-    // ------------------------------------------------------
+    private const int INITIAL_DISTANCE = 1;
 
     private readonly System.Random random = new System.Random();
     private readonly Asteroid?[] activeAsteroids = new Asteroid?[QUADRANT_COUNT];
@@ -61,12 +57,27 @@ public sealed class DefaultAsteroidService : AsteroidService
         return MapStoreToDtos();
     }
 
-    public AsteroidDto?[] CalculateStates(string?[] actions)
+    public AsteroidDto?[] CalculateStates(int?[] actions)
     {
         for (int index = 0; index < QUADRANT_COUNT; index++)
         {
-            string? action = index < actions.Length ? actions[index] : null;
-            activeAsteroids[index] = ApplyAction(activeAsteroids[index], action);
+            var asteroid = activeAsteroids[index];
+            if (asteroid is null) continue;
+
+            var actionId = (actions != null && index < actions.Length) ? actions[index] : null;
+            if (actionId is null) continue;
+
+            var contingency = ContingencyFactory.Get(actionId.Value);
+            if (contingency is null) continue;
+
+            var result = contingency.Apply(asteroid);
+            if (result.DeviatedFromEarth)
+            {
+                activeAsteroids[index] = null;
+                continue;
+            }
+            
+            asteroid.IncreaseDistance();
         }
         return MapStoreToDtos();
     }

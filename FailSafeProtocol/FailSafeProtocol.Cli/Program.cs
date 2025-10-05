@@ -41,7 +41,7 @@ class Program
                 string.Equals(mode, "mod", StringComparison.OrdinalIgnoreCase))
             {
                 var actions = SplitExactlyN(RemoveFirstToken(trimmed), ' ', 4);
-                var dtos = service.CalculateStates(actions);
+                var dtos = service.CalculateStates([]);
                 PrintQuadrants(dtos);
                 continue;
             }
