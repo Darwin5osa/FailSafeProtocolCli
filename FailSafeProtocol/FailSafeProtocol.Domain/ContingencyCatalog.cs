@@ -1,5 +1,6 @@
 namespace FailSafeProtocol.Domain;
 
+using System;
 
 public sealed class ContingencyResult
 {
@@ -25,9 +26,9 @@ public abstract class Contingency
     protected bool desviationByInertia(int coningencyInertia, int asteroidInertia, int distance)
     {
         int residualInertia = asteroidInertia - coningencyInertia;
-        if (residualInertia < 0) residualInertia = 0;
-        if (residualInertia > 65) residualInertia = 65;
-        double residualRatio = residualInertia / 65.0;
+        Console.WriteLine("ResidualInertia" + residualInertia);
+        if (residualInertia < 0) return true;
+        double residualRatio = residualInertia / asteroidInertia;
         double threshold = distance switch
         {
             1 => 0.70,
