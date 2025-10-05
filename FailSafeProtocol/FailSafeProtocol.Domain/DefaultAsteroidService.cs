@@ -41,6 +41,8 @@ public sealed class DefaultAsteroidService : AsteroidService
     private const double PROBABILITY_DIRECTION_C = 0.30;
     //private const double PROBABILITY_DIRECTION_D = 0.30;
 
+    private const int INITIAL_DISTANCE = 5;
+
     // TODO modify levels of brightness ---------------------
     private const int BRIGHTNESS_LEVEL_NONE_MAX = 0;
     private const int BRIGHTNESS_LEVEL_BASIC_MAX = 3;
@@ -120,7 +122,10 @@ public sealed class DefaultAsteroidService : AsteroidService
                 newVolatility,
                 current.Integrity,
                 current.Compact,
-                current.Direction
+                current.Direction,
+                current.Country,
+                current.City,
+                current.Distance
             );
         }
         if (normalized == "weaken")
@@ -140,7 +145,10 @@ public sealed class DefaultAsteroidService : AsteroidService
                 newVolatility,
                 current.Integrity,
                 current.Compact,
-                current.Direction
+                current.Direction,
+                current.Country,
+                current.City,
+                current.Distance
             );
         }
         if (normalized == "scan") return current;
@@ -198,6 +206,9 @@ public sealed class DefaultAsteroidService : AsteroidService
         CompositionType composition = WeightedComposition(difficultyFactor);
         IntegrityType integrity = WeightedIntegrity();
 
+        Country country = WorldData.PickRandomCountry(direction);
+        City city = WorldData.PickRandomCity(country);
+
         return new Asteroid(
             velocity,
             size,
@@ -209,7 +220,10 @@ public sealed class DefaultAsteroidService : AsteroidService
             volatility,
             integrity,
             compact,
-            direction
+            direction,
+            country,
+            city,
+            INITIAL_DISTANCE
         );
     }
 
@@ -226,62 +240,98 @@ public sealed class DefaultAsteroidService : AsteroidService
 
     private AsteroidDto MapToDto(Asteroid model)
     {
-        if (model.Brightness <= BRIGHTNESS_LEVEL_NONE_MAX)
+        const int RevealNever = 6;
+
+        int detectionDistance = model.Distance;
+        int asteroidBrightness = model.Brightness;
+
+        int revealAtVelocity;
+        int revealAtSize;
+        int revealAtIsFastRotation;
+        int revealAtIsIrregular;
+        int revealAtComposition;
+        int revealAtIsMultiplicity;
+        int revealAtEccentricity = RevealNever;
+        int revealAtVolatility = RevealNever;
+        int revealAtIntegrity;
+        int revealAtCompact;
+
+        if (asteroidBrightness >= 7)
         {
-            return new AsteroidDto(
-                model.Velocity,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
+            revealAtVelocity = 1;
+            revealAtSize = 1;
+            revealAtIsFastRotation = 1;
+            revealAtIsIrregular = 1;
+            revealAtComposition = 2;
+            revealAtIsMultiplicity = 2;
+            revealAtEccentricity = 2;
+            revealAtVolatility = 3;
+            revealAtIntegrity = 3;
+            revealAtCompact = 4;
         }
-        if (model.Brightness <= BRIGHTNESS_LEVEL_BASIC_MAX)
+        else if (asteroidBrightness >= 3)
         {
-            return new AsteroidDto(
-                model.Velocity,
-                model.Size,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
+            revealAtVelocity = 1;
+            revealAtSize = 1;
+            revealAtIsFastRotation = 1;
+            revealAtIsIrregular = 2;
+            revealAtEccentricity = 2;
+            revealAtIsMultiplicity = 3;
+            revealAtComposition = 3;
+            revealAtIntegrity = 4;
+            revealAtVolatility = 4;
+            revealAtCompact = 5;
         }
-        if (model.Brightness <= BRIGHTNESS_LEVEL_INTERMEDIATE_MAX)
+        else if (asteroidBrightness >= 0)
         {
-            return new AsteroidDto(
-                model.Velocity,
-                model.Size,
-                model.IsFastRotation,
-                model.IsIrregular,
-                model.Composition,
-                null,
-                null,
-                null,
-                null,
-                model.Compact
-            );
+            revealAtSize = 1;
+            revealAtIsFastRotation = 1;
+            revealAtVelocity = 2;
+            revealAtIsIrregular = 2;
+            revealAtIsMultiplicity = 3;
+            revealAtComposition = 3;
+            revealAtVolatility = 4;
+            revealAtIntegrity = 5;
+            revealAtCompact = 5;
         }
+        else if (asteroidBrightness >= -3)
+        {
+            revealAtSize = 1;
+            revealAtIsFastRotation = 2;
+            revealAtVelocity = 2;
+            revealAtIsIrregular = 3;
+            revealAtEccentricity = 3;
+            revealAtComposition = 4;
+            revealAtIsMultiplicity = 4;
+            revealAtIntegrity = 5;
+            revealAtCompact = 5;
+        }
+        else
+        {
+            revealAtSize = 2;
+            revealAtIsFastRotation = 3;
+            revealAtVelocity = 3;
+            revealAtIsMultiplicity = 4;
+            revealAtEccentricity = 4;
+            revealAtIsIrregular = 4;
+            revealAtVolatility = 5;
+            revealAtCompact = 5;
+            revealAtIntegrity = 5;
+            revealAtComposition = 5;
+        }
+
         return new AsteroidDto(
-            model.Velocity,
-            model.Size,
-            model.IsFastRotation,
-            model.IsIrregular,
-            model.Composition,
-            model.IsMultiplicity,
-            model.Eccentricity,
-            model.Volatility,
-            model.Integrity,
-            model.Compact
+            velocity: detectionDistance >= revealAtVelocity ? model.Velocity : null,
+            size: detectionDistance >= revealAtSize ? model.Size : null,
+            isFastRotation: detectionDistance >= revealAtIsFastRotation ? model.IsFastRotation : (bool?)null,
+            isIrregular: detectionDistance >= revealAtIsIrregular ? model.IsIrregular : (bool?)null,
+            composition: detectionDistance >= revealAtComposition ? model.Composition : (CompositionType?)null,
+            isMultiplicity: detectionDistance >= revealAtIsMultiplicity ? model.IsMultiplicity : (bool?)null,
+            eccentricity: detectionDistance >= revealAtEccentricity ? model.Eccentricity : null,
+            volatility: detectionDistance >= revealAtVolatility ? model.Volatility : null,
+            integrity: detectionDistance >= revealAtIntegrity ? model.Integrity : (IntegrityType?)null,
+            compact: detectionDistance >= revealAtCompact ? model.Compact : null,
+            distance: detectionDistance
         );
     }
 

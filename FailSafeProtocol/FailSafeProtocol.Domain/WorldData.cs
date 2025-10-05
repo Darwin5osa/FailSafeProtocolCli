@@ -181,7 +181,7 @@ public enum City
 }
 
 // Simple API surface
-public static class World
+public static class WorldData
 {
     // Direction → Countries
     private static readonly IReadOnlyDictionary<DirectionType, Country[]> DirectionToCountries =
@@ -390,7 +390,7 @@ public static class World
     /// <summary>
     /// Returns a random country from the given direction.
     /// </summary>
-    public static Country PickRandomCountry(DirectionType direction, int? seed = null)
+    public static Country PickRandomCountry(DirectionType direction)
     {
         var countries = DirectionToCountries.TryGetValue(direction, out var list)
             ? list
@@ -399,8 +399,24 @@ public static class World
         if (countries.Length == 0)
             throw new InvalidOperationException($"No countries configured for direction {direction}.");
 
-        var rng = seed.HasValue ? new Random(seed.Value) : new Random();
+        var rng = new Random();
         return countries[rng.Next(countries.Length)];
+    }
+
+    /// <summary>
+    /// Returns a random country from the given direction.
+    /// </summary>
+    public static City PickRandomCity(Country country)
+    {
+        var citys = CountryToCities.TryGetValue(country, out var list)
+            ? list
+            : Array.Empty<City>();
+
+        if (citys.Length == 0)
+            throw new InvalidOperationException($"No citys configured for country {country}.");
+
+        var rng = new Random();
+        return citys[rng.Next(citys.Length)];
     }
 
     internal static IReadOnlyList<City> GetCities(Country country) =>
@@ -418,18 +434,7 @@ public static class CountryExtensions
     /// </summary>
     public static int GetTotalPopulation(this Country country)
     {
-        var cities = World.GetCities(country);
-        return cities.Sum(World.GetCityPopulation);
-    }
-}
-
-// Example
-public static class Program
-{
-    public static void Main()
-    {
-        var d = DirectionType.B;
-        var country = World.PickRandomCountry(d);
-        Console.WriteLine($"Direction: {d} → Country: {country} → Population: {country.GetTotalPopulation():N0}");
+        var cities = WorldData.GetCities(country);
+        return cities.Sum(WorldData.GetCityPopulation);
     }
 }

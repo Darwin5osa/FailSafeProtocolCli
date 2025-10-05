@@ -17,22 +17,25 @@ public enum IntegrityType
 
 public sealed class Asteroid
 {
-    public int Velocity { get; init; }
-    public int Size { get; init; }
-    public bool IsFastRotation { get; init; }
-    public bool IsIrregular { get; init; }
-    public CompositionType Composition { get; init; }
-    public bool IsMultiplicity { get; init; }
-    public int Eccentricity { get; init; }
-    public int Volatility { get; init; }
-    public IntegrityType Integrity { get; init; }
-    public int Compact { get; init; }
-    public DirectionType Direction { get; init; }
-    public int Brightness { get; init; }
-    public int Mass { get; init; }
-    public int Inertia { get; init; }
-    public int TrajectoryInstability { get; init; }
-    public int Aimability { get; init; }
+    public int Velocity { get; }
+    public int Size { get; }
+    public bool IsFastRotation { get; }
+    public bool IsIrregular { get; }
+    public CompositionType Composition { get; }
+    public bool IsMultiplicity { get; }
+    public int Eccentricity { get; }
+    public int Volatility { get; }
+    public IntegrityType Integrity { get; }
+    public int Compact { get; }
+    public Country Country { get; }
+    public City City { get; }
+    public DirectionType Direction { get; }
+    public int Brightness { get; }
+    public int Mass { get; }
+    public int Inertia { get; }
+    public int TrajectoryInstability { get; }
+    public int Aimability { get; }
+    public int Distance { get; }
 
     public Asteroid(
         int velocity,
@@ -45,7 +48,10 @@ public sealed class Asteroid
         int volatility,
         IntegrityType integrity,
         int compact,
-        DirectionType direction)
+        DirectionType direction,
+        Country country,
+        City city,
+        int distance)
     {
         Velocity = velocity;
         Size = size;
@@ -58,6 +64,9 @@ public sealed class Asteroid
         Integrity = integrity;
         Compact = compact;
         Direction = direction;
+        Country = country;
+        City = city;
+        Distance = distance;
 
         Brightness = ComputeBrightness();
         Mass = ComputeMass();
