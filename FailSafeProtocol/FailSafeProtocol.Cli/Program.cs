@@ -41,7 +41,7 @@ class Program
                 string.Equals(mode, "mod", StringComparison.OrdinalIgnoreCase))
             {
                 var actions = SplitExactlyN(RemoveFirstToken(trimmed), ' ', 4);
-                var dtos = service.CalculateStates([]);
+                var dtos = service.CalculateStates([0,0,0,0]);
                 PrintQuadrants(dtos);
                 continue;
             }
@@ -125,7 +125,8 @@ class Program
         WritePair("Eccentricity", dto.Eccentricity); Console.Write(", ");
         WritePair("Volatility", dto.Volatility); Console.Write(", ");
         WritePair("Integrity", dto.Integrity); Console.Write(", ");
-        WritePair("Compact", dto.Compact);
+        WritePair("Compact", dto.Compact); Console.Write(", ");
+        WritePair("Distance", dto.Distance);
         Console.WriteLine(" }");
     }
 

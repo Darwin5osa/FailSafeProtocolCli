@@ -76,7 +76,7 @@ public sealed class DefaultAsteroidService
                 activeAsteroids[index] = null;
                 continue;
             }
-            
+
             asteroid.IncreaseDistance();
         }
         return MapStoreToDtos();
@@ -108,62 +108,6 @@ public sealed class DefaultAsteroidService
             2 => DirectionType.C,
             _ => DirectionType.D
         };
-    }
-
-    private Asteroid? ApplyAction(Asteroid? current, string? action)
-    {
-        if (current is null) return null;
-        if (string.IsNullOrWhiteSpace(action)) return current;
-        string normalized = action.Trim().ToLowerInvariant();
-        if (normalized == "destroy") return null;
-        if (normalized == "boost")
-        {
-            int newVelocity = System.Math.Min(MAX_VELOCITY_VALUE, current.Velocity + 1);
-            int newSize = System.Math.Max(MIN_SIZE_VALUE, current.Size - 1);
-            int newEccentricity = System.Math.Min(MAX_ECCENTRICITY_VALUE, current.Eccentricity + 1);
-            int newVolatility = System.Math.Min(MAX_VOLATILITY_VALUE, current.Volatility + 1);
-            return new Asteroid(
-                newVelocity,
-                newSize,
-                true,
-                current.IsIrregular,
-                current.Composition,
-                current.IsMultiplicity,
-                newEccentricity,
-                newVolatility,
-                current.Integrity,
-                current.Compact,
-                current.Direction,
-                current.Country,
-                current.City,
-                current.Distance
-            );
-        }
-        if (normalized == "weaken")
-        {
-            int newVelocity = System.Math.Max(MIN_VELOCITY_VALUE, current.Velocity - 1);
-            int newSize = System.Math.Min(MAX_SIZE_VALUE, current.Size + 1);
-            int newEccentricity = System.Math.Max(MIN_ECCENTRICITY_VALUE, current.Eccentricity - 1);
-            int newVolatility = System.Math.Max(MIN_VOLATILITY_VALUE, current.Volatility - 1);
-            return new Asteroid(
-                newVelocity,
-                newSize,
-                false,
-                current.IsIrregular,
-                current.Composition,
-                current.IsMultiplicity,
-                newEccentricity,
-                newVolatility,
-                current.Integrity,
-                current.Compact,
-                current.Direction,
-                current.Country,
-                current.City,
-                current.Distance
-            );
-        }
-        if (normalized == "scan") return current;
-        return current;
     }
 
     private Asteroid GenerateAsteroid(int roundNumberInput, DirectionType direction)

@@ -172,7 +172,7 @@ public sealed class Asteroid
 
     public void IncreaseDistance()
     {
-        this.Distance = this.Distance++;
+        Distance++;
     }
 }
     
