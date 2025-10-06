@@ -387,6 +387,88 @@ public static class WorldData
             { City.Auckland, 1700000 }, { City.Wellington, 220000 }, { City.Christchurch, 380000 }
         };
 
+        private static readonly System.Collections.Generic.IReadOnlyDictionary<City, long> CityAreaSquareMeters =
+    new System.Collections.Generic.Dictionary<City, long>
+    {
+        // US / CA
+        { City.NewYork, 783_800_000L }, { City.LosAngeles, 1_302_000_000L }, { City.Chicago, 606_000_000L }, { City.Houston, 1_651_000_000L }, { City.Phoenix, 1_338_000_000L },
+        { City.Philadelphia, 369_000_000L }, { City.SanAntonio, 1_307_000_000L }, { City.SanDiego, 964_000_000L }, { City.Dallas, 997_000_000L },
+        { City.Toronto, 630_200_000L }, { City.Montreal, 431_500_000L }, { City.Vancouver, 115_000_000L }, { City.Calgary, 825_000_000L }, { City.Edmonton, 684_000_000L }, { City.Ottawa, 2_790_000_000L },
+        { City.Nassau, 207_000_000L }, { City.Bridgetown, 40_000_000L }, { City.Kingston, 480_000_000L }, { City.SpanishTown, 15_000_000L }, { City.Portmore, 51_000_000L }, { City.Chaguanas, 59_000_000L },
+
+        // B
+        { City.London, 1_572_000_000L }, { City.BirminghamUK, 268_000_000L }, { City.ManchesterUK, 116_000_000L }, { City.Glasgow, 175_000_000L }, { City.Leeds, 552_000_000L }, { City.Liverpool, 112_000_000L },
+        { City.Dublin, 118_000_000L }, { City.Cork, 187_000_000L }, { City.Limerick, 60_000_000L },
+        { City.Oslo, 454_000_000L }, { City.Bergen, 464_000_000L }, { City.Stavanger, 71_000_000L },
+        { City.Stockholm, 188_000_000L }, { City.Gothenburg, 448_000_000L }, { City.Malmo, 158_000_000L },
+        { City.Helsinki, 213_000_000L }, { City.Espoo, 528_000_000L }, { City.Tampere, 689_000_000L },
+        { City.Copenhagen, 86_000_000L }, { City.Aarhus, 91_000_000L }, { City.Odense, 304_000_000L },
+        { City.Reykjavik, 273_000_000L },
+        { City.Amsterdam, 219_000_000L }, { City.Rotterdam, 325_000_000L }, { City.TheHague, 98_000_000L }, { City.Utrecht, 99_000_000L }, { City.Eindhoven, 88_000_000L },
+        { City.Brussels, 161_000_000L }, { City.Antwerp, 204_000_000L }, { City.Ghent, 157_000_000L }, { City.Charleroi, 102_000_000L },
+        { City.Berlin, 891_000_000L }, { City.Hamburg, 755_000_000L }, { City.Munich, 310_000_000L }, { City.Cologne, 405_000_000L }, { City.Frankfurt, 248_000_000L }, { City.Stuttgart, 207_000_000L },
+        { City.Dusseldorf, 217_000_000L }, { City.Dortmund, 280_000_000L }, { City.Essen, 210_000_000L }, { City.Bremen, 326_000_000L }, { City.Dresden, 328_000_000L }, { City.Leipzig, 297_000_000L }, { City.Hanover, 204_000_000L },
+        { City.Warsaw, 517_000_000L }, { City.Krakow, 327_000_000L }, { City.Lodz, 293_000_000L }, { City.Wroclaw, 293_000_000L }, { City.Poznan, 262_000_000L }, { City.Gdansk, 262_000_000L },
+        { City.Prague, 496_000_000L }, { City.Brno, 230_000_000L }, { City.Ostrava, 215_000_000L },
+        { City.Bratislava, 367_000_000L }, { City.Kosice, 242_000_000L },
+        { City.Tallinn, 159_000_000L }, { City.Tartu, 39_000_000L },
+        { City.Riga, 307_000_000L },
+        { City.Vilnius, 401_000_000L }, { City.Kaunas, 157_000_000L },
+        { City.Moscow, 2_561_000_000L }, { City.SaintPetersburg, 1_439_000_000L }, { City.Novosibirsk, 505_000_000L }, { City.Yekaterinburg, 468_000_000L }, { City.NizhnyNovgorod, 411_000_000L },
+        { City.Kazan, 516_000_000L }, { City.Chelyabinsk, 530_000_000L }, { City.Omsk, 572_000_000L }, { City.Samara, 541_000_000L }, { City.RostovOnDon, 348_000_000L }, { City.Ufa, 708_000_000L },
+        { City.Krasnoyarsk, 379_000_000L }, { City.Perm, 800_000_000L }, { City.Voronezh, 596_000_000L }, { City.Volgograd, 859_000_000L },
+        { City.Minsk, 409_000_000L }, { City.Gomel, 121_000_000L }, { City.Mogilev, 121_000_000L },
+        { City.Kyiv, 839_000_000L }, { City.Kharkiv, 350_000_000L }, { City.Odesa, 163_000_000L }, { City.Dnipro, 405_000_000L }, { City.Lviv, 182_000_000L }, { City.Zaporizhzhia, 334_000_000L },
+        { City.Almaty, 682_000_000L }, { City.Astana, 722_000_000L }, { City.Shymkent, 1_170_000_000L }, { City.Karaganda, 497_000_000L },
+
+        // C
+        { City.MexicoCity, 1_485_000_000L }, { City.Guadalajara, 187_000_000L }, { City.Monterrey, 324_000_000L }, { City.Puebla, 534_000_000L }, { City.Tijuana, 637_000_000L }, { City.Leon, 221_000_000L },
+        { City.GuatemalaCity, 692_000_000L }, { City.Mixco, 99_000_000L }, { City.VillaNueva, 114_000_000L },
+        { City.Tegucigalpa, 201_000_000L }, { City.SanPedroSula, 123_000_000L }, { City.Choloma, 47_000_000L },
+        { City.SanSalvador, 72_000_000L }, { City.Soyapango, 29_000_000L }, { City.SantaAnaSV, 408_000_000L },
+        { City.Managua, 267_000_000L }, { City.LeonNI, 820_000_000L }, { City.Matagalpa, 52_000_000L },
+        { City.SanJoseCR, 45_000_000L }, { City.Alajuela, 388_000_000L }, { City.Heredia, 10_000_000L },
+        { City.PanamaCity, 275_000_000L }, { City.SanMiguelito, 50_000_000L },
+        { City.Havana, 728_000_000L }, { City.SantiagoDeCuba, 102_000_000L }, { City.Camaguey, 1_100_000_000L }, { City.Holguin, 655_000_000L },
+        { City.SantoDomingo, 104_000_000L }, { City.SantiagoDeLosCaballeros, 76_000_000L }, { City.SanCristobalDO, 126_000_000L },
+        { City.SanJuanPR, 199_000_000L }, { City.Bayamon, 115_000_000L }, { City.CarolinaPR, 120_000_000L },
+        { City.Bogota, 1_587_000_000L }, { City.Medellin, 382_000_000L }, { City.Cali, 564_000_000L }, { City.Barranquilla, 166_000_000L }, { City.Cartagena, 572_000_000L },
+        { City.Caracas, 433_000_000L }, { City.Maracaibo, 557_000_000L }, { City.ValenciaVE, 623_000_000L }, { City.Barquisimeto, 277_000_000L },
+        { City.Guayaquil, 345_000_000L }, { City.Quito, 372_000_000L }, { City.Cuenca, 71_000_000L },
+        { City.Lima, 2_672_000_000L }, { City.Arequipa, 3_000_000_000L }, { City.Trujillo, 110_000_000L },
+        { City.SantaCruz, 535_000_000L }, { City.ElAlto, 118_000_000L }, { City.LaPaz, 472_000_000L },
+        { City.Santiago, 641_000_000L }, { City.PuenteAlto, 88_000_000L }, { City.Antofagasta, 307_000_000L }, { City.VinaDelMar, 121_000_000L }, { City.Valparaiso, 401_000_000L },
+        { City.BuenosAires, 203_000_000L }, { City.Cordoba, 576_000_000L }, { City.Rosario, 178_000_000L }, { City.Mendoza, 54_000_000L }, { City.LaPlata, 940_000_000L }, { City.MarDelPlata, 79_000_000L },
+        { City.Montevideo, 201_000_000L }, { City.Salto, 141_000_000L }, { City.Paysandu, 120_000_000L }, { City.LasPiedras, 12_000_000L },
+        { City.Asuncion, 118_000_000L }, { City.CiudadDelEste, 104_000_000L }, { City.SanLorenzo, 74_000_000L },
+        { City.SaoPaulo, 1_521_110_000L }, { City.RioDeJaneiro, 1_221_000_000L }, { City.Brasilia, 5_802_000_000L }, { City.Salvador, 693_000_000L }, { City.Fortaleza, 314_000_000L }, { City.BeloHorizonte, 331_000_000L },
+        { City.Manaus, 11_401_000_000L }, { City.Curitiba, 435_000_000L }, { City.Recife, 218_000_000L }, { City.PortoAlegre, 496_000_000L },
+        { City.Georgetown, 70_000_000L }, { City.Paramaribo, 182_000_000L }, { City.Cayenne, 23_000_000L },
+
+        // D
+        { City.Delhi, 1_484_000_000L }, { City.Mumbai, 603_000_000L }, { City.Bangalore, 709_000_000L }, { City.Hyderabad, 625_000_000L }, { City.Ahmedabad, 464_000_000L }, { City.Chennai, 426_000_000L },
+        { City.Kolkata, 206_000_000L }, { City.Surat, 326_000_000L }, { City.Pune, 331_000_000L }, { City.Jaipur, 467_000_000L },
+        { City.Karachi, 3_780_000_000L }, { City.Lahore, 1_772_000_000L }, { City.Faisalabad, 1_300_000_000L }, { City.Rawalpindi, 259_000_000L }, { City.Multan, 133_000_000L },
+        { City.Dhaka, 306_000_000L }, { City.Chittagong, 168_000_000L }, { City.Khulna, 59_000_000L },
+        { City.Colombo, 37_000_000L }, { City.Dehiwala, 21_000_000L }, { City.Moratuwa, 23_000_000L },
+        { City.Kathmandu, 50_000_000L }, { City.Pokhara, 55_000_000L },
+        { City.Yangon, 598_000_000L }, { City.Mandalay, 121_000_000L },
+        { City.Bangkok, 1_568_000_000L }, { City.NakhonRatchasima, 756_000_000L }, { City.Nonthaburi, 39_000_000L },
+        { City.HoChiMinhCity, 2_095_000_000L }, { City.Hanoi, 3_358_000_000L }, { City.HaiPhong, 152_000_000L }, { City.DaNang, 1_285_000_000L },
+        { City.KualaLumpur, 243_000_000L }, { City.Klang, 573_000_000L }, { City.JohorBahru, 220_000_000L },
+        { City.Jakarta, 661_000_000L }, { City.Surabaya, 350_000_000L }, { City.Bandung, 167_000_000L }, { City.Bekasi, 206_000_000L }, { City.Medan, 265_000_000L }, { City.Tangerang, 153_000_000L }, { City.Depok, 200_000_000L }, { City.Semarang, 373_000_000L }, { City.Palembang, 369_000_000L }, { City.Makassar, 199_000_000L },
+        { City.QuezonCity, 166_000_000L }, { City.Manila, 43_000_000L }, { City.DavaoCity, 2_444_000_000L }, { City.Caloocan, 55_000_000L }, { City.CebuCity, 315_000_000L }, { City.ZamboangaCity, 1_312_000_000L },
+        { City.Riyadh, 1_973_000_000L }, { City.Jeddah, 1_600_000_000L }, { City.Mecca, 1_200_000_000L }, { City.Medina, 589_000_000L }, { City.Dammam, 800_000_000L },
+        { City.Tehran, 730_000_000L }, { City.Mashhad, 351_000_000L }, { City.Isfahan, 551_000_000L }, { City.Karaj, 163_000_000L }, { City.Shiraz, 240_000_000L }, { City.Tabriz, 243_000_000L },
+        { City.Baghdad, 673_000_000L }, { City.Basra, 190_000_000L }, { City.Mosul, 180_000_000L }, { City.Erbil, 120_000_000L },
+        { City.Cairo, 606_000_000L }, { City.Giza, 87_000_000L }, { City.Alexandria, 300_000_000L }, { City.ShubraElKheima, 30_000_000L }, { City.PortSaid, 72_000_000L }, { City.Suez, 262_000_000L },
+        { City.Lagos, 1_171_000_000L }, { City.Kano, 499_000_000L }, { City.Ibadan, 3_080_000_000L }, { City.BeninCity, 1_204_000_000L }, { City.PortHarcourt, 369_000_000L }, { City.Kaduna, 131_000_000L }, { City.Maiduguri, 137_000_000L }, { City.Aba, 49_000_000L },
+        { City.AddisAbaba, 527_000_000L }, { City.DireDawa, 1_213_000_000L }, { City.Mekelle, 24_000_000L },
+        { City.Nairobi, 696_000_000L }, { City.Mombasa, 295_000_000L }, { City.Nakuru, 290_000_000L },
+        { City.Sydney, 12_367_000_000L }, { City.Melbourne, 9_993_000_000L }, { City.Brisbane, 15_842_000_000L }, { City.Perth, 6_418_000_000L }, { City.Adelaide, 1_827_000_000L },
+        { City.Auckland, 1_086_000_000L }, { City.Wellington, 290_000_000L }, { City.Christchurch, 1_426_000_000L }
+    };
+
     /// <summary>
     /// Returns a random country from the given direction.
     /// </summary>
@@ -424,6 +506,9 @@ public static class WorldData
 
     public static int GetCityPopulation(City city) =>
         CityPopulation.TryGetValue(city, out var pop) ? pop : 0;
+
+    public static long GetCityArea(City city) =>
+        CityAreaSquareMeters.TryGetValue(city, out var pop) ? pop : 0;
 }
 
 // "Method on Country": implemented as an extension (idiomatic for enums in C#)

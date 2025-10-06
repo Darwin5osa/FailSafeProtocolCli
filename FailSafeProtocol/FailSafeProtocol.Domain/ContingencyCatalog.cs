@@ -79,6 +79,20 @@ public abstract class Contingency
 
         return (int)diametreInKm;
     }
+
+    protected static int ComputeSurvivingPopulationByDestroyedArea(City city, int destroyedAreaSquareMeters)
+    {
+        int cityPopulation = WorldData.GetCityPopulation(city);
+        long cityArea = WorldData.GetCityArea(city);
+        if (cityArea <= 0) return cityPopulation;
+        double destroyedFraction = destroyedAreaSquareMeters <= 0 ? 0.0 : (double)destroyedAreaSquareMeters / cityArea;
+        if (destroyedFraction < 0) destroyedFraction = 0;
+        if (destroyedFraction > 1) destroyedFraction = 1;
+        int deaths = (int)System.Math.Round(cityPopulation * destroyedFraction);
+        int survivors = cityPopulation - deaths;
+        if (survivors < 0) survivors = 0;
+        return survivors;
+    }
 }
 
 public sealed class WaitContingency : Contingency
@@ -86,11 +100,12 @@ public sealed class WaitContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
-        int terrain = 100; // WorldData.GetCityTerrain
+
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
         if (asteroid.Distance == 5)
         {
-            survivingPopulation = 0;
-            terrain = terrain - this.getDestroyedTerrain(asteroid);
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
         }
         return new ContingencyResult(false, false, terrain, survivingPopulation);
     }
@@ -101,11 +116,11 @@ public sealed class EvacuateContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
-        int terrain = 100; // WorldData.GetCityTerrain
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
         if (asteroid.Distance == 5)
         {
             survivingPopulation = (int)(terrain * 0.75);
-            terrain = terrain - this.getDestroyedTerrain(asteroid);
+            terrain = this.getDestroyedTerrain(asteroid);
         }
         return new ContingencyResult(false, false, terrain, survivingPopulation);
     }
@@ -127,8 +142,8 @@ public sealed class ElectromagnetContingency : Contingency
 
         if ((asteroid.Distance == 5) && (!desviatedFromEarth))
         {
-            survivingPopulation = 0;
-            terrain = terrain - this.getDestroyedTerrain(asteroid);
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
         }
         return new ContingencyResult(desviatedFromEarth, false, terrain, survivingPopulation);
     }
@@ -160,8 +175,8 @@ public sealed class MiningContingency : Contingency
 
         if ((asteroid.Distance == 5) && (!desviatedFromEarth))
         {
-            survivingPopulation = 0;
-            terrain = terrain - this.getDestroyedTerrain(asteroid);
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
         }
         return new ContingencyResult(desviatedFromEarth, false, terrain, survivingPopulation);
     }
@@ -180,8 +195,8 @@ public sealed class MirrorsContingency : Contingency
 
         if ((asteroid.Distance == 5) && (!desviatedFromEarth))
         {
-            survivingPopulation = 0;
-            terrain = terrain - this.getDestroyedTerrain(asteroid);
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
         }
         return new ContingencyResult(desviatedFromEarth, false, terrain, survivingPopulation);
     }
@@ -192,7 +207,16 @@ public sealed class PaintContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -201,7 +225,16 @@ public sealed class LaserContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -210,7 +243,16 @@ public sealed class TarpContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -219,7 +261,16 @@ public sealed class RetroRocketsContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -228,7 +279,16 @@ public sealed class GravityTractorContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -237,7 +297,16 @@ public sealed class TowCablesContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -246,7 +315,16 @@ public sealed class ProjectileContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -255,7 +333,16 @@ public sealed class RemoteMiniBombsContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -264,7 +351,16 @@ public sealed class NukeContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 
@@ -273,7 +369,16 @@ public sealed class ImpactOtherAsteroidContingency : Contingency
     public override ContingencyResult Apply(Asteroid asteroid)
     {
         bool deviated = System.Random.Shared.Next(2) == 0;
-        return new ContingencyResult(deviated, false, 0, 0);
+        int survivingPopulation = WorldData.GetCityPopulation(asteroid.City);
+        int terrain = (int)WorldData.GetCityArea(asteroid.City);
+
+        if (asteroid.Distance == 5)
+        {
+            terrain = this.getDestroyedTerrain(asteroid);
+            survivingPopulation = ComputeSurvivingPopulationByDestroyedArea(asteroid.City, terrain);
+        }
+
+        return new ContingencyResult(deviated, false, terrain, survivingPopulation);
     }
 }
 

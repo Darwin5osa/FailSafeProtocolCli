@@ -1,5 +1,3 @@
-using System.IO.Pipelines;
-
 namespace FailSafeProtocol.Domain;
 
 public sealed class DefaultAsteroidService
@@ -78,6 +76,8 @@ public sealed class DefaultAsteroidService
             }
 
             asteroid.IncreaseDistance();
+            asteroid.setDestroidTerrain(result.DestroyedTerrain);
+            asteroid.setSurvivors(result.SurvivingPopulation);
         }
         return MapStoreToDtos();
     }
@@ -178,6 +178,8 @@ public sealed class DefaultAsteroidService
             direction,
             country,
             city,
+            WorldData.GetCityPopulation(city),
+            0,
             INITIAL_DISTANCE
         );
     }
@@ -286,6 +288,10 @@ public sealed class DefaultAsteroidService
             volatility: detectionDistance >= revealAtVolatility ? model.Volatility : null,
             integrity: detectionDistance >= revealAtIntegrity ? model.Integrity : (IntegrityType?)null,
             compact: detectionDistance >= revealAtCompact ? model.Compact : null,
+            country: model.Country.ToString(),
+            city: model.City.ToString(),
+            population: model.Population,
+            destroyedTerrain: model.DestroyedTerrain,
             distance: detectionDistance
         );
     }

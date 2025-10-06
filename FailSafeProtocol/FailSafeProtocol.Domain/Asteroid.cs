@@ -36,6 +36,8 @@ public sealed class Asteroid
     public int TrajectoryInstability { get; }
     public int Aimability { get; }
     public int Distance { get; private set; }
+    public int Population { get; private set; }
+    public int DestroyedTerrain { get; private set; }
 
     public Asteroid(
         int velocity,
@@ -51,6 +53,8 @@ public sealed class Asteroid
         DirectionType direction,
         Country country,
         City city,
+        int population,
+        int destroyedTerrain,
         int distance)
     {
         Velocity = velocity;
@@ -67,6 +71,8 @@ public sealed class Asteroid
         Country = country;
         City = city;
         Distance = distance;
+        Population = population;
+        DestroyedTerrain = destroyedTerrain;
 
         Brightness = ComputeBrightness();
         Mass = ComputeMass();
@@ -173,6 +179,16 @@ public sealed class Asteroid
     public void IncreaseDistance()
     {
         Distance++;
+    }
+
+    public void setDestroidTerrain(int tearrain)
+    {
+        DestroyedTerrain = tearrain;
+    }
+
+    public void setSurvivors(int survivingPopulation)
+    {
+        Population = survivingPopulation;
     }
 }
     

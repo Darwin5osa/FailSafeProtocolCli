@@ -16,6 +16,7 @@ public sealed class AsteroidDto
     public string? City { get; }
     public int? Population { get; }
     public int? DesviationProbability { get; }
+    public int? DestroyedTerrain { get; }
     public int Distance { get; }
 
     public AsteroidDto(
@@ -33,7 +34,8 @@ public sealed class AsteroidDto
         string? city = null,
         int? population = null,
         int? desviationProbability = null,
-        int distance = 5)
+        int? destroyedTerrain = null,
+        int distance = 1)
     {
         Velocity = velocity;
         Size = size;
@@ -49,6 +51,7 @@ public sealed class AsteroidDto
         City = city;
         Population = population;
         DesviationProbability = desviationProbability;
+        DestroyedTerrain = destroyedTerrain;
         Distance = distance;
     }
 }
